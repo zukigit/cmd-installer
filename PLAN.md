@@ -92,7 +92,7 @@ cmd-installer.sh help
    - Write the wrapper with `printf '%s\n'` to a temp file in the bin folder, `chmod 755`, then `mv` it into place. The command text is never expanded, and a half-written wrapper never exists.
 3. **uninstall `<name>`**: check that the file exists and has the marker, then `rm` it. Otherwise print an error and exit with code 1.
 4. **uninstall `--all`**: remove every file in the bin folder that has the marker, except `cmd-installer` itself. Print how many were removed.
-   - `--purge` also removes the whole `~/.local/cmd-installer` folder (including the self-installed copy) and the marker blocks in the startup files. This fully reverts the setup.
+   - `--purge` also removes the self-installed copy, `env.sh` and the marker blocks in the startup files, then deletes the `~/.local/cmd-installer` folder. If unmarked files are still in the folder, it keeps them (and the folder) and prints a warning, so purge never deletes a file it didn't create.
 5. **list**: print each marked wrapper as `name → command`.
 6. **self-install**: copy the running script to `~/.local/cmd-installer/bin/cmd-installer` with `chmod 755`, so `cmd-installer ...` works from anywhere. Running it again updates the copy.
 7. **Exit codes**: 0 for success, 1 for user error, 2 for a missing prerequisite or running as root.
